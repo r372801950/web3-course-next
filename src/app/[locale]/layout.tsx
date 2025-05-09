@@ -3,6 +3,7 @@ import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import {ReactNode} from "react";
+import {Web3ClientProvider} from "@/components/provider/Web3Provider";
 
 export default async function LocaleLayout({
   children,
@@ -20,7 +21,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
     <body>
-      <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      <NextIntlClientProvider>
+        <Web3ClientProvider>
+          {children}
+        </Web3ClientProvider>
+      </NextIntlClientProvider>
     </body>
     </html>
   );
