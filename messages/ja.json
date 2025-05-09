@@ -1,12 +1,18 @@
 {
   "HomePage": {
-    "about": "アバウトページへ",
-    "title": "こんにちは、世界！"
+    "about": "約ページへ",
+    "title": "こんにちは世界！"
   },
   "Navigation": {
     "logo": "ロゴ",
     "courseList": "コース一覧",
     "documentation": "ドキュメント",
-    "hotCourses": "人気コース"
+    "hotCourses": "人気コース",
+    "tokenSwap": "トークン交換",
+    "uploadCourse": "コースをアップロード",
+    "signIn": "サインイン",
+    "getStarted": "始める",
+    "web3University": "Web3大学",
+    "connectWallet": "ウォレットを接続"
   }
 }

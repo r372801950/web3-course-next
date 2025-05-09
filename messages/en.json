@@ -7,6 +7,12 @@
     "logo": "Logo",
     "courseList": "Course List",
     "documentation": "Documentation",
-    "hotCourses": "Hot Courses"
+    "hotCourses": "Hot Courses",
+    "tokenSwap": "Token Swap",
+    "uploadCourse": "Upload Course",
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "web3University": "Web3 University",
+    "connectWallet": "Connect Wallet"
   }
 }

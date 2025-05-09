@@ -1,12 +1,18 @@
 {
   "HomePage": {
     "about": "前往关于页面",
-    "title": "你好，世界！"
+    "title": "你好世界！"
   },
   "Navigation": {
-    "logo": "Logo",
+    "logo": "标志",
     "courseList": "课程列表",
     "documentation": "文档",
-    "hotCourses": "热门课程"
+    "hotCourses": "热门课程",
+    "tokenSwap": "代币兑换",
+    "uploadCourse": "上传课程",
+    "signIn": "登录",
+    "getStarted": "开始使用",
+    "web3University": "Web3大学",
+    "connectWallet": "连接钱包"
   }
 }

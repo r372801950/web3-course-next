@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Bot, Menu } from "lucide-react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import type React from "react" // Added import for React
+import type React from "react"
+import { useTranslations } from "next-intl"
 
 export default function Navbar() {
+  const nav = useTranslations('Navigation');
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -15,21 +18,20 @@ export default function Navbar() {
     >
       <Link href="/" className="flex items-center space-x-2">
         <Bot className="w-8 h-8 text-purple-500" />
-        <span className="text-white font-medium text-xl">ResearchAI</span>
+        <span className="text-white font-medium text-xl">{nav('web3University')}</span>
       </Link>
 
       <div className="hidden md:flex items-center space-x-8">
-        <NavLink href="/features">Features</NavLink>
-        <NavLink href="/how-it-works">How it Works</NavLink>
-        <NavLink href="/examples">Examples</NavLink>
-        <NavLink href="/pricing">Pricing</NavLink>
+        <NavLink href="/courses">{nav('courseList')}</NavLink>
+        <NavLink href="/swap">{nav('tokenSwap')}</NavLink>
+        <NavLink href="/upload-course">{nav('uploadCourse')}</NavLink>
       </div>
 
       <div className="hidden md:flex items-center space-x-4">
         <Button variant="ghost" className="text-white hover:text-purple-400">
-          Sign In
+          {nav('signIn')}
         </Button>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white">Get Started</Button>
+        <Button className="bg-purple-600 hover:bg-purple-700 text-white">{nav('connectWallet')}</Button>
       </div>
 
       <Button variant="ghost" size="icon" className="md:hidden text-white">
