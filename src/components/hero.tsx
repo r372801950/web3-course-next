@@ -3,9 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { FileText, Sparkles } from "lucide-react"
-import { FloatingPaper } from "@/components/floating-paper"
+// import { FloatingPaper } from "@/components/floating-paper"
 import { RoboAnimation } from "@/components/robo-animation"
+import dynamic from "next/dynamic";
 
+const FloatingPaper = dynamic(() => import('@/components/floating-paper').then(mod => mod.FloatingPaper), {
+  ssr: false
+})
 
 export default function Hero() {
   return (
