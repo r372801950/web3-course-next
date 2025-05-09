@@ -1,14 +1,50 @@
 import {useTranslations} from 'next-intl';
-import {Link} from '@/i18n/navigation';
-import {Button} from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle
+} from "@/components/ui/navigation-menu";
 
 export default function HomePage() {
-  const t = useTranslations('HomePage');
+  const nav = useTranslations('Navigation');
   return (
     <div>
-      <h1>{t('title')}</h1>
-      <Link href="/about">{t('about')}</Link>
-      <Button>Click me</Button>
+      <NavigationMenu>
+        <NavigationMenuList>
+          {/* 热门课程导航项 */}
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/course"
+              className={navigationMenuTriggerStyle()}
+            >
+              {nav('hotCourses')}
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          {/* 课程列表导航项 */}
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/course-list"
+              className={navigationMenuTriggerStyle()}
+            >
+              {nav('courseList')}
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          {/* 文档导航项 */}
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/docs"
+              className={navigationMenuTriggerStyle()}
+            >
+              {nav('documentation')}
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
     </div>
   );
 }
