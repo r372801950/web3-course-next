@@ -1,8 +1,12 @@
 import {ConnectButton} from "@rainbow-me/rainbowkit";
 
-const ConnectBtn = () => {
+type ConnectBtnProps = {
+  label: string;
+}
+
+const ConnectBtn = (props: ConnectBtnProps) => {
   return (
-    <ConnectButton />
+    <ConnectButton label={props.label} />
   )
 }
 export default ConnectBtn;

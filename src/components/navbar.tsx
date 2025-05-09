@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import type React from "react"
 import { useTranslations } from "next-intl"
+import ConnectBtn from "@/components/connect-wallet/connect-btn";
 
 export default function Navbar() {
   const nav = useTranslations('Navigation');
@@ -31,7 +32,8 @@ export default function Navbar() {
         <Button variant="ghost" className="text-white hover:text-purple-400">
           {nav('signIn')}
         </Button>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white">{nav('connectWallet')}</Button>
+        {/*<Button className="bg-purple-600 hover:bg-purple-700 text-white">{nav('connectWallet')}</Button>*/}
+        <ConnectBtn label={nav('connectWallet')} />
       </div>
 
       <Button variant="ghost" size="icon" className="md:hidden text-white">
