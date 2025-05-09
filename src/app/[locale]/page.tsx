@@ -20,7 +20,7 @@ export default function HomePage() {
             <Image
               className='mr-5'
               src="/logo.png" // 假设您的SVG文件名为logo.svg
-              alt="Logo"
+              alt={nav('logo')}
               width={100} // 设置合适的宽度
               height={50} // 设置合适的高度
               priority // 如果这是重要的首屏元素，建议添加priority属性

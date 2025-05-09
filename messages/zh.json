@@ -1,1 +1,12 @@
-{"HomePage":{"about":"前往关于页面","title":"你好，世界！"},"Navigation":{"courseList":"课程列表","documentation":"文档","hotCourses":"热门课程"}}
+{
+  "HomePage": {
+    "about": "前往关于页面",
+    "title": "你好，世界！"
+  },
+  "Navigation": {
+    "logo": "Logo",
+    "courseList": "课程列表",
+    "documentation": "文档",
+    "hotCourses": "热门课程"
+  }
+}

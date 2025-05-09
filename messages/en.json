@@ -1,1 +1,12 @@
-{"HomePage":{"about":"Go to the about page","title":"Hello world!"},"Navigation":{"courseList":"Course List","documentation":"Documentation","hotCourses":"Hot Courses"}}
+{
+  "HomePage": {
+    "about": "Go to the about page",
+    "title": "Hello world!"
+  },
+  "Navigation": {
+    "logo": "Logo",
+    "courseList": "Course List",
+    "documentation": "Documentation",
+    "hotCourses": "Hot Courses"
+  }
+}
