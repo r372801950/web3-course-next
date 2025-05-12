@@ -1,13 +1,13 @@
 // 'use client';
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {PokemonInfo} from "@/app/[locale]/courses/PokemonInfo";
-import {pokemonOptions} from "@/app/[locale]/courses/pokemon";
+import {courseListOptions } from "@/app/[locale]/courses/pokemon";
 import {getQueryClient} from "@/app/[locale]/courses/get-query-client";
 
 const CoursePage = () => {
   const queryClient = getQueryClient()
 
-  void queryClient.prefetchQuery(pokemonOptions)
+  void queryClient.prefetchQuery(courseListOptions)
 
   // 渲染数据
   return (

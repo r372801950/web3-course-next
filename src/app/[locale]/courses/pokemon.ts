@@ -1,19 +1,30 @@
 import { queryOptions } from '@tanstack/react-query'
-import getCourseInfo from "@/lib/contracts/getCourseInfo";
 
-export const pokemonOptions = queryOptions(
-  // {
-  //   queryKey: ['pokemon'],
-  //   queryFn: async () => {
-  //     const response = await fetch('https://pokeapi.co/api/v2/pokemon/25')
-  //
-  //     return response.json()
-  //   },
-  // }
-  {
-    queryKey: ['courses-list'],   // 唯一标识这个查询的键
-    queryFn: getCourseInfo,  // 数据获取函数
-    staleTime: 60 * 1000,    // 数据保持新鲜状态的时间（毫秒）
-    // retry: 1,                // 失败重试次数
+// 首先定义一个 Course 接口
+export interface Course {
+  name: string;
+  price: string | number;
+  isActive: boolean;
+  creator?: string; // 可选属性，因为你注释掉了这部分代码
+}
+export interface CourseDataResponse {
+  data: Course[];
+  // 其他可能的响应字段，如 code, message 等
+}
+// 定义课程列表查询选项
+export const courseListOptions = queryOptions<CourseDataResponse>({
+  queryKey: ['courses'],
+  retry: 0,
+  queryFn: async () => {
+    // 使用相对路径，这样会通过 Next.js API 路由
+    // const response = await fetch('/api/course/list')
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
   }
-)
+});  // 添加分号，确保语句正确结束
