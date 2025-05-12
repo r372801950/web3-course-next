@@ -3,6 +3,7 @@ import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {PokemonInfo} from "@/app/[locale]/courses/PokemonInfo";
 import {courseListOptions } from "@/app/[locale]/courses/pokemon";
 import {getQueryClient} from "@/app/[locale]/courses/get-query-client";
+import {CourseList} from "@/app/[locale]/courses/course-list";
 
 const CoursePage = () => {
   const queryClient = getQueryClient()
@@ -17,6 +18,7 @@ const CoursePage = () => {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <PokemonInfo />
       </HydrationBoundary>
+      <CourseList />
     </div>
   );
 }

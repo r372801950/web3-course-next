@@ -5,28 +5,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import {CourseDataResponse, courseListOptions} from "@/app/[locale]/courses/pokemon";
 
 export function PokemonInfo() {
-  const {
-      data: courseData,
-      isLoading,
-      error
-  } = useSuspenseQuery<CourseDataResponse>(courseListOptions)
-
-  // 使用 useQuery Hook 替换 useState 和 useEffect
-  // const {
-  //   data: courseData,
-  //   isLoading,
-  //   error
-  // } = useQuery({
-  //   queryKey: ['courses'],   // 唯一标识这个查询的键
-  //   queryFn: getCourseInfo,  // 数据获取函数
-  //   staleTime: 60 * 1000,    // 数据保持新鲜状态的时间（毫秒）
-  //   retry: 1,                // 失败重试次数
-  // });
-  // 处理加载状态
-  if (isLoading) return <div>加载中...</div>;
-
-  // 处理错误状态
-  if (error) return <div>错误: {error.message}</div>;
+  const { data: courseData } = useSuspenseQuery<CourseDataResponse>(courseListOptions)
 
   return (
     <div>
