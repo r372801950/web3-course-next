@@ -1,5 +1,6 @@
 import {queryOptions, useQuery} from "@tanstack/react-query";
 import {type Course} from "@/lib/types/index";
+import {fetchApi} from "@/lib/api";
 
 interface ApiResponse<T> {
   code: number;
@@ -71,6 +72,22 @@ export const hotCourseOptions = queryOptions<Course[]>({
     const response = await fetch('/api/course/list');
     const result: CourseListResponse = await response.json();
     return result.data || [];
+  }
+});
+
+export const hotCourseOptionsServer = queryOptions<Course[]>({
+  queryKey: ['courses'],
+  retry: 0,
+  // queryFn: async () => {
+  //   // 使用相对路径，这样会通过 Next.js API 路由
+  //   const response = await fetch('/api/course/list')
+  //   return await response.json();
+  //
+  // }
+  queryFn: async () => {
+    // const response = await fetch('http://localhost:3000/api/course/list');
+    // const response = typeof window===undefined?await fetchApi<Course[]>("course/list"): await fetch('/api/course/list')
+    return await fetchApi<Course[]>("course/list")
   }
 });
 

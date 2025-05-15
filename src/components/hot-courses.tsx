@@ -10,7 +10,6 @@ import {useSuspenseQuery} from "@tanstack/react-query";
 export default function HotCourses() {
   // const { data, isLoading } = useCourseList();
   const {data} = useSuspenseQuery<Welcome[]>(hotCourseOptions)
-  console.log('🍎',data)
   const hotCourse = data.slice(0, 6) || [];
 
   return (
