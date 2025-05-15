@@ -4,8 +4,15 @@
 import {SparklesCore} from "@/components/sparkles";
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
+import HotCourses from "@/components/hot-courses";
+import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
+import {getQueryClient} from "@/app/[locale]/courses/get-query-client";
+import {hotCourseOptions} from "@/lib/hooks/use-course-db";
 
 export default function HomePage() {
+  const queryClient = getQueryClient()
+  void queryClient.prefetchQuery(hotCourseOptions)
+
   return (
     <>
       {/*<NavBar />
@@ -27,6 +34,9 @@ export default function HomePage() {
         <div className="relative z-10">
           <Navbar />
           <Hero />
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <HotCourses />
+          </HydrationBoundary>
         </div>
       </main>
     </>
