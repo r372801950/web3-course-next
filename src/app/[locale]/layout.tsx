@@ -4,6 +4,8 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import {ReactNode} from "react";
 import {Web3ClientProvider} from "@/components/provider/Web3Provider";
+import {SparklesCore} from "@/components/sparkles";
+import Navbar from "@/components/navbar";
 
 export default async function LocaleLayout({
   children,
@@ -23,7 +25,28 @@ export default async function LocaleLayout({
     <body>
       <NextIntlClientProvider>
         <Web3ClientProvider>
-          {children}
+          <main className="min-h-screen bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
+            {/* Ambient background with moving particles */}
+            <div className="h-full w-full absolute inset-0 z-0">
+              <SparklesCore
+                id="tsparticlesfullpage"
+                background="transparent"
+                minSize={0.6}
+                maxSize={1.4}
+                particleDensity={100}
+                className="w-full h-full"
+                particleColor="#FFFFFF"
+              />
+            </div>
+
+            <div className="relative z-10">
+              {/* Navbar stays fixed across all pages */}
+              <Navbar />
+
+              {/* Page content changes based on route */}
+              {children}
+            </div>
+          </main>
         </Web3ClientProvider>
       </NextIntlClientProvider>
     </body>
