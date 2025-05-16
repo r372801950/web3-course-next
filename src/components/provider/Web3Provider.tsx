@@ -6,6 +6,7 @@ import { ReactNode } from 'react';
 import { WagmiProvider, http } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import {Web3Provider} from "@/lib/context/web3-context";
 
 // 创建配置使用新的 getDefaultConfig API
 const config = getDefaultConfig({
@@ -32,7 +33,9 @@ export const Web3ClientProvider = ({ children }: { children: ReactNode }) => {
           fontStack: 'system',
           overlayBlur: 'small',
         })}>
-          {children}
+          <Web3Provider>
+            {children}
+          </Web3Provider>
           <ReactQueryDevtools />
         </RainbowKitProvider>
       </QueryClientProvider>
