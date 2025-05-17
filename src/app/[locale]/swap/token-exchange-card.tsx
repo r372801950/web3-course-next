@@ -86,13 +86,13 @@ export default function TokenExchangeCard() {
     return Number(balance).toFixed(4);
   };
 
-  // 组件挂载时刷新余额
-  useEffect(() => {
-    if (isConnected && address) {
-      refreshBalances();
-    }
-  }, [isConnected, address, refreshBalances]);
-  // }, [isConnected, address, useCallback(refreshBalances,[])]);
+  // // 组件挂载时刷新余额
+  // useEffect(() => {
+  //   if (isConnected && address) {
+  //     console.log('tom')
+  //     refreshBalances();
+  //   }
+  // }, [isConnected, address, refreshBalances]);
 
   // 计算兑换金额
   useEffect(() => {

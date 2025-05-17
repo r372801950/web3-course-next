@@ -1,10 +1,11 @@
 // src/lib/context/web3-context.tsx
 "use client"
 
-import {createContext, useContext, useEffect, useState, ReactNode, useCallback} from "react"
+import {createContext, useContext, useEffect, useState, ReactNode, useCallback, useMemo} from "react"
 import { ethers } from "ethers"
 import { YiDengToken, YiDengToken__factory } from "@/typechain-types"
 import { useAccount } from "wagmi"
+import {usePathname} from "next/navigation";
 
 // 环境变量
 const YIDENG_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_YIDENG_TOKEN_ADDRESS || ''
@@ -28,7 +29,8 @@ type Web3ContextType = {
 }
 
 // 创建上下文
-const Web3Context = createContext<Web3ContextType>({
+const Web3Context = createContext<Web3ContextType | undefined>({
+// const Web3Context = createContext<Web3ContextType>({
   provider: null,
   signer: null,
   ydContract: null,
@@ -45,15 +47,33 @@ export function Web3Provider({ children }: { children: ReactNode }) {
   const [ydContract, setYdContract] = useState<YiDengToken | null>(null)
   const [balances, setBalances] = useState<TokenBalances>({ eth: "0", yd: "0" })
   const [isInitialized, setIsInitialized] = useState(false)
+  const pathname = usePathname();
+
+  // 首先确定当前页面是否需要Web3功能
+  const needsWeb3Functionality = useMemo(() => {
+    // 需要Web3的路径关键词
+    const web3PathKeywords = ['swap']; // 添加任何需要Web3的路径关键词
+
+    // 将路径分段并去除空字符串
+    const segments = pathname.split('/').filter(Boolean);
+
+    // 检查任何路径段是否匹配关键词
+    return web3PathKeywords.some(keyword =>
+      segments.some(segment => segment === keyword)
+    );
+  }, [pathname]);
 
   // 初始化 Web3 连接和合约
   useEffect(() => {
+    // 在代码关键位置添加性能标记
+    performance.mark('web3-init-start');
+
     const initialize = async () => {
-      console.log('🍎🍎🍎1111')
       // 检查环境和连接状态
-      if (typeof window === 'undefined' || !window.ethereum || !address || !isConnected) {
-        setIsInitialized(true) // 即使没有初始化也设置为 true，表示已尝试初始化
-        return
+      if (typeof window === 'undefined' || !window.ethereum || !address || !isConnected || !needsWeb3Functionality) {
+        setIsInitialized(true); // 即使没有初始化也设置为 true，表示已尝试初始化
+        console.log('pass initial web3 provider');
+        return;
       }
 
       try {
@@ -73,10 +93,14 @@ export function Web3Provider({ children }: { children: ReactNode }) {
         setYdContract(tokenContract)
 
         // 获取初始余额
+        console.log(address, isConnected, needsWeb3Functionality,'123')
         await fetchBalances(web3Provider, tokenContract, address)
 
         setIsInitialized(true)
-        console.log("Web3 初始化成功")
+        // 初始化代码...
+        performance.mark('web3-init-end');
+        performance.measure('Web3 initialization', 'web3-init-start', 'web3-init-end');
+        console.log(performance.getEntriesByName('Web3 initialization')[0].duration + 'ms');
       } catch (error) {
         console.error("Web3 初始化失败:", error)
         setIsInitialized(true) // 即使出错也设置为已初始化
@@ -84,7 +108,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     }
 
     initialize()
-  }, [address, isConnected])
+  }, [address, isConnected, needsWeb3Functionality])
 
   // 获取余额的函数
   const fetchBalances = async (
@@ -171,5 +195,9 @@ export function Web3Provider({ children }: { children: ReactNode }) {
 
 // 创建自定义钩子以便在组件中使用
 export function useWeb3() {
-  return useContext(Web3Context)
+  const web3 =  useContext(Web3Context)
+  if(!web3) {
+    throw new Error('useWeb3() must be used within Web3')
+  }
+  return web3;
 }
