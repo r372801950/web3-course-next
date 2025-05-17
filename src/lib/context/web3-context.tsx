@@ -202,11 +202,22 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     // 同样监听ETH余额变化（这个比较复杂，因为ETH没有Transfer事件）
     // 我们可以监听区块，然后在每个区块上检查余额变化
     if (provider) {
-      provider.on('block', async () => {
-        // 由于每个区块都会触发，可以考虑添加节流逻辑
-        // 这里简单实现，实际应用中应该添加节流以减少请求
-        await refreshBalances();
+
+      // 添加节流逻辑的例子
+      let lastBlockChecked = 0;
+      provider.on('block', async (blockNumber) => {
+        // 每 10 个区块检查一次余额
+        if (blockNumber - lastBlockChecked > 10) {
+          lastBlockChecked = blockNumber;
+          await refreshBalances();
+        }
       });
+
+      // provider.on('block', async () => {
+      //   // 由于每个区块都会触发，可以考虑添加节流逻辑
+      //   // 这里简单实现，实际应用中应该添加节流以减少请求
+      //   await refreshBalances();
+      // });
     }
 
     // 清理函数
