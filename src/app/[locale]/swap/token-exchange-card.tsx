@@ -177,7 +177,7 @@ export default function TokenExchangeCard() {
       toast.error("交易失败，请重试");
     } finally {
       setIsLoading(false);
-      await handleRefreshBalance(); // 交易完成后刷新余额
+      // await handleRefreshBalance(); // 交易完成后刷新余额
     }
   };
 

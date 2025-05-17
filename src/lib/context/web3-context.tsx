@@ -176,6 +176,52 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     }
   }, [isConnected])
 
+  // 在 Web3Provider 组件中添加事件监听
+  useEffect(() => {
+    // 确保必要的依赖项存在
+    if (!ydContract || !address || !isConnected) return;
+
+    console.log('设置余额监听器');
+
+    // 创建过滤器来监听 转账事件    1
+    // 监听发送到当前地址的转账 (收到代币)
+    const incomingFilter = ydContract.filters.Transfer(null, address);
+    // 监听从当前地址发出的转账 (发送代币)
+    const outgoingFilter = ydContract.filters.Transfer(address, null);
+
+    // 收到代币时更新余额
+    const handleTransfer = async () => {
+      console.log('检测到转账事件，更新余额');
+      await refreshBalances();
+    };
+
+    // 监听两种转账事件         2
+    ydContract.on(incomingFilter, handleTransfer);
+    ydContract.on(outgoingFilter, handleTransfer);
+
+    // 同样监听ETH余额变化（这个比较复杂，因为ETH没有Transfer事件）
+    // 我们可以监听区块，然后在每个区块上检查余额变化
+    if (provider) {
+      provider.on('block', async () => {
+        // 由于每个区块都会触发，可以考虑添加节流逻辑
+        // 这里简单实现，实际应用中应该添加节流以减少请求
+        await refreshBalances();
+      });
+    }
+
+    // 清理函数
+    return () => {
+      console.log('移除余额监听器');
+      if (ydContract) {
+        ydContract.removeAllListeners(incomingFilter);
+        ydContract.removeAllListeners(outgoingFilter);
+      }
+      if (provider) {
+        provider.removeAllListeners('block');
+      }
+    };
+  }, [ydContract, address, isConnected, provider, refreshBalances]);
+
   // 提供上下文值
   const contextValue: Web3ContextType = {
     provider,
