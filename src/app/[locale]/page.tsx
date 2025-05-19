@@ -1,7 +1,7 @@
 import Hero from "@/components/hero";
 import HotCourses from "@/components/hot-courses";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
-import {getQueryClient} from "@/app/[locale]/courses/get-query-client";
+import {getQueryClient} from "@/lib/get-query-client";
 import {hotCourseOptionsServer} from "@/lib/hooks/use-course-db";
 
 export default function HomePage() {
