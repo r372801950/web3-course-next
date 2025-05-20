@@ -15,7 +15,7 @@ async function getCourseInfo() {
       // const signer = provider.getSigner();
 
       // CourseMarket合约地址
-      const contractAddress = "0xE19f6eabb277012834D7cF31F74bF4eeD26DdA95";
+      const contractAddress = process.env.NEXT_PUBLIC_COURSE_MARKET_ADDRESS || '';
 
       // 使用typechain工厂类
       const courseMarket = CourseMarket__factory.connect(

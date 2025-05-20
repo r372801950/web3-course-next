@@ -3,12 +3,13 @@
 
 import {createContext, useContext, useEffect, useState, ReactNode, useCallback, useMemo} from "react"
 import { ethers } from "ethers"
-import { YiDengToken, YiDengToken__factory } from "@/typechain-types"
+import { YiDengToken, YiDengToken__factory, CourseMarket, CourseMarket__factory } from "@/typechain-types"
 import { useAccount } from "wagmi"
 import {usePathname} from "next/navigation";
 
 // 环境变量
 const YIDENG_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_YIDENG_TOKEN_ADDRESS || ''
+const COURSE_MARKET_ADDRESS = process.env.NEXT_PUBLIC_COURSE_MARKET_ADDRESS || ''
 
 // 代币类型定义
 export type TokenId = string;
@@ -23,6 +24,7 @@ type Web3ContextType = {
   provider: ethers.providers.Web3Provider | null;
   signer: ethers.Signer | null;
   ydContract: YiDengToken | null;
+  courseContract: CourseMarket | null;
   balances: TokenBalances;
   isInitialized: boolean;
   refreshBalances: () => Promise<void>;
@@ -34,6 +36,7 @@ const Web3Context = createContext<Web3ContextType | undefined>({
   provider: null,
   signer: null,
   ydContract: null,
+  courseContract: null,
   balances: { eth: "0", yd: "0" },
   isInitialized: false,
   refreshBalances: async () => {}
@@ -45,6 +48,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
   const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null)
   const [signer, setSigner] = useState<ethers.Signer | null>(null)
   const [ydContract, setYdContract] = useState<YiDengToken | null>(null)
+  const [courseContract, setCourseContract] = useState<CourseMarket | null>(null)
   const [balances, setBalances] = useState<TokenBalances>({ eth: "0", yd: "0" })
   const [isInitialized, setIsInitialized] = useState(false)
   const pathname = usePathname();
@@ -52,7 +56,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
   // 首先确定当前页面是否需要Web3功能
   const needsWeb3Functionality = useMemo(() => {
     // 需要Web3的路径关键词
-    const web3PathKeywords = ['swap']; // 添加任何需要Web3的路径关键词
+    const web3PathKeywords = ['swap', 'courses']; // 添加任何需要Web3的路径关键词
 
     // 将路径分段并去除空字符串
     const segments = pathname.split('/').filter(Boolean);
@@ -91,6 +95,13 @@ export function Web3Provider({ children }: { children: ReactNode }) {
           web3Signer
         )
         setYdContract(tokenContract)
+
+        // 初始化 Course Market 合约
+        const marketContract = CourseMarket__factory.connect(
+          COURSE_MARKET_ADDRESS,
+          web3Signer
+        )
+        setCourseContract(marketContract)
 
         // 获取初始余额
         console.log(address, isConnected, needsWeb3Functionality,'123')
@@ -153,6 +164,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
         setProvider(null)
         setSigner(null)
         setYdContract(null)
+        setCourseContract(null)
         setBalances({ eth: "0", yd: "0" })
       } else {
         // 账户变更，重新初始化
@@ -238,6 +250,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     provider,
     signer,
     ydContract,
+    courseContract,
     balances,
     isInitialized,
     refreshBalances
