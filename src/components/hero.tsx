@@ -4,16 +4,34 @@ import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { FileText, Sparkles } from "lucide-react"
 // import { FloatingPaper } from "@/components/floating-paper"
-import { RoboAnimation } from "@/components/robo-animation"
+// import { RoboAnimation } from "@/components/robo-animation"
 import dynamic from "next/dynamic";
 
 const FloatingPaper = dynamic(() => import('@/components/floating-paper').then(mod => mod.FloatingPaper), {
   ssr: false
 })
+const RoboAnimation = dynamic(() => import('@/components/robo-animation').then(mod => mod.RoboAnimation), {
+  ssr: false
+})
+const SparklesCore = dynamic(() => import('@/components/sparkles').then(mod => mod.SparklesCore), {
+  ssr: false
+})
 
 export default function Hero() {
   return (
-    <div className="relative min-h-[calc(100vh-76px)] flex items-center">
+    <>
+      <div className="h-full w-full absolute inset-0 z-0">
+        <SparklesCore
+          id="tsparticlesfullpage"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1.4}
+          particleDensity={100}
+          className="w-full h-full"
+          particleColor="#FFFFFF"
+        />
+      </div>
+      <div className="relative min-h-[calc(100vh-76px)] flex items-center">
       {/* Floating papers background */}
       <div className="absolute inset-0 overflow-hidden">
         <FloatingPaper count={6} />
@@ -64,5 +82,7 @@ export default function Hero() {
         <RoboAnimation />
       </div>
     </div>
+    </>
+    
   )
 }
