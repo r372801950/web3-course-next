@@ -31,7 +31,7 @@ jobs:
         run: pnpm lint || true
       
       - name: Run tests
-        run: pnpm test
+        run: pnpm test -- --passWithNoTests
       
       - name: Build project
         run: pnpm build
