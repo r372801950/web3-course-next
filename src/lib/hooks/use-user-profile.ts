@@ -12,37 +12,44 @@ export const useUserProfile = (address: string | null | undefined) => {
         title: "",
     });
     const [avatarUrl, setAvatarUrl] = useState("");
-  const updateProfile = (
-    newUsername: string,
-    newDescription: string,
-    newTitle: string,
-    newAvatar?: FileInfo
-  ) => {
-    localStorage.setItem(`username_${address}`, newUsername);
-    localStorage.setItem(`description_${address}`, newDescription);
-    localStorage.setItem(`title_${address}`, newTitle);
-  };
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-        if (!address) return;
-        const token = localStorage.getItem('token');
-        if (!token) return;
-
-      const user = await fetch(`/api/user/profile`, {
-        method: "POST",
-        body: JSON.stringify({ address, token }),
-      });
-     const { avatar,avatarUrl, description, id, title, username }: UserProfile =
-         await user.json();
-        setAvatar(avatar);
-        setAvatarUrl(avatarUrl || "");
-        setDescription(description);
-        setTitle(title);
-        setUsername(username);
+    const updateProfile = (
+        newUsername: string,
+        newDescription: string,
+        newTitle: string,
+        newAvatar?: FileInfo
+    ) => {
+        localStorage.setItem(`username_${address}`, newUsername);
+        localStorage.setItem(`description_${address}`, newDescription);
+        localStorage.setItem(`title_${address}`, newTitle);
+        if (newAvatar) {
+            setAvatar(newAvatar);
+        }
     };
-    fetchProfile();
-  }, [address]);
 
-  return { username, title, description, avatar,avatarUrl, address, updateProfile };
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if (!address) return;
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            try {
+                const response = await fetch(`/api/user/profile`, {
+                    method: "POST",
+                    body: JSON.stringify({ address, token }),
+                });
+                const { avatar, avatarUrl, description, title, username }: UserProfile = await response.json();
+                setAvatar(avatar);
+                setAvatarUrl(avatarUrl || "");
+                setDescription(description);
+                setTitle(title);
+                setUsername(username);
+            } catch (error) {
+                console.error("Error fetching user profile:", error);
+            }
+        };
+        fetchProfile();
+    }, [address]);
+
+    return { username, title, description, avatar, avatarUrl, updateProfile };
 };
