@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, Star, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { hotCourseOptions, Welcome} from "@/lib/hooks/use-course-db";
 import {useSuspenseQuery} from "@tanstack/react-query";
 export default function HotCourses() {
@@ -72,10 +73,13 @@ export default function HotCourses() {
                     <div className="relative z-10">
                       <div className="relative overflow-hidden aspect-[4/3]">
                         <div className="absolute -inset-1 bg-gradient-to-r from-purple-300/10 via-transparent to-purple-300/10 z-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity blur-xl" />
-                        <img
+                        <Image
                           src={course.imgUrl || "/placeholder.svg"}
                           alt={course.name}
-                          className="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="relative z-10 object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
+                          priority={index < 3}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
                       </div>

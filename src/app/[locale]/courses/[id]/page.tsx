@@ -66,7 +66,7 @@ export default function CourseDetailPage() {
         <div className="relative z-10">
           <div className="container mx-auto px-4 py-12 text-center text-white">
             <h1 className="text-4xl font-bold mb-4">Course Not Found</h1>
-            <p>The course you're looking for doesn't exist.</p>
+            <p>The course you&apos;re looking for doesn&apos;t exist.</p>
           </div>
         </div>
       </main>
@@ -355,17 +355,12 @@ export default function CourseDetailPage() {
               <Card className="bg-black/50 border border-purple-500/20 backdrop-blur-sm text-white sticky top-4 shadow-lg shadow-purple-500/5">
                 <CardContent className="p-6">
                   <div className="relative overflow-hidden rounded-lg mb-4 group">
-                    {/* <Image
+                    <Image
                       src={course.imgUrl || "/placeholder.svg"}
                       alt={course.name}
                       width={500}
                       height={300}
                       priority
-                      className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110"
-                    /> */}
-                    <img
-                      src={course.imgUrl || "/placeholder.svg"}
-                      alt={course.name}
                       className="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60" />

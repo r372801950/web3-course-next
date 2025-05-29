@@ -2,7 +2,7 @@
 
 import { LoadingProvider } from '@/lib/context/LoadingContext';
 import LoadingOverlay from './LoadingOverlay';  
-import { useState, ReactNode, useEffect } from 'react';
+import { useState, ReactNode } from 'react';
 import { useGlobalLoading } from '@/lib/hooks/use-global-loading';
 
 interface LoadingWrapperProps {
